@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script>
+
+		const url = "http://localhost:3000";
+		let imageSrc = "";
+
+		function createImage()
+		{
+			let imageText = $("#imageText").val();
+			$("#btnCreateImage").prop("disabled", true);
+			$("#spinner").show();
+
+			$.get("/app/genImage?name=" + imageText, function(response)
+			{
+				imageSrc = url + response;
+
+				setTimeout(function ()
+				{
+					$("#spinner").hide();
+					$("#img").attr("src", imageSrc);
+					$("#imager").show();
+					$("#btnCreateImage").prop("disabled", false);
+
+				}, 3000);
+			});
+		}
+
+	</script>
+</head>
+<body>
+	<div class="container" style="padding: 2%">
+		<div class="row">
+			<div class="col-lg-4" style="border: 1px solid #f7f7f7;padding: 3%;box-shadow: 0px 1px 2px;">
+				<h1>Text To Image Converter</h1>
+				<br />
+				<b>1. The Plan</b><br />
+				<p>We found this really cool API to fetch daily programming quotes. So we thought we would use that to post interesting quotes on our social media accounts.</p>
+				<b>2. What went wrong</b>
+				<p>After all the OAuth documentation and testing and reviews we decided, it's best kept for another day. So till then, here is a peek at Phase 1. Damn you facebook for that <code>publish_action</code></p>
+				<b>P.S. We didn't give up hope :D</b>
+				<br><br><br>
+				<center>With &hearts; Developers</center>
+			</div>
+			<div class="col-lg-1"></div>
+			<div class="col-lg-7">
+				<br />
+				<p style="letter-spacing: 2px;">Coz your words mean something </p>
+				<textarea rows="7" id="imageText" type="text" class="form-control" placeholder="Your words go over here ..."></textarea><br />
+				<button id="btnCreateImage" type="button" class="btn btn-block btn-success" onclick="createImage()">Create Image</button>
+
+				<center>
+				<div id="spinner" class="spinner-border" role="status" style="display: none;margin-top:20px">
+					<span class="sr-only">Generating image ...</span>
+				</div>
+
+				<div id="imager" style="padding: 5%;display: none;">
+					<img src="" id="img" style="box-shadow: 0px 2px 5px;" />
+				</div>
+				</center>
+				<span style="font-size: 13px;">As much as we are inspired by your words, we unfortunately don't have space to store them. So we delete them everyday at say around 12 ish.</span>
+			</div>
+		</div>
+	</div>
+</body>
